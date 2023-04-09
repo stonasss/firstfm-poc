@@ -10,10 +10,10 @@ async function update({ email, password }: LogInUser) {
         rowCount, 
         rows: [user],
     } = await userRepositories.findByEmail(email);
-    if (!rowCount) throw errors.invalidCredentialsError();
+    if (!rowCount) throw errors.invalidCredentialsError(email);
 
     const correctPasswd = bcrypt.compare(password, user.password);
-    if (!correctPasswd) throw errors.invalidCredentialsError();
+    if (!correctPasswd) throw errors.invalidCredentialsError(email);
 
     if (!user.token) {    
         const token = jwt.sign({ user_id: user.id }, process.env.SECRET_KEY);
