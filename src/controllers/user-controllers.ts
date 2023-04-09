@@ -13,7 +13,14 @@ async function signUp(req: Request, res: Response, next: NextFunction){
 }
 
 async function logIn(req: Request, res: Response, next: NextFunction){
-    
+    const { email, password } = req.body;
+
+    try {
+        const token = await userService.update({ email, password });
+        return res.send({ token })
+    } catch (err) {
+        next(err);
+    }
 }
 
 async function getUsers(){
