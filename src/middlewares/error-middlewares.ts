@@ -1,4 +1,4 @@
-import httpStatus from "httpstatus";
+import httpStatus from "http-status";
 import { Request, Response, NextFunction } from "express";
 
 type Error = {
