@@ -34,7 +34,7 @@ async function createUser({ name, email, password }: RegisterUser) {
     });
 };
 
-async function findUsers() {
+async function retrieveUsers() {
     const { rows, rowCount } = await userRepositories.getUsers();
 
     if (!rowCount) throw errors.notFoundError();
@@ -51,6 +51,6 @@ async function deleteUser(id: number) {
 export const userServices = {
     createUser,
     updateUser,
-    findUsers,
+    retrieveUsers,
     deleteUser,
 };

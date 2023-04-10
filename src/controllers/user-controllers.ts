@@ -26,7 +26,7 @@ async function logIn(req: Request, res: Response, next: NextFunction){
 
 async function getUsers(req: Request, res: Response, next: NextFunction){
     try {
-        const users = await userServices.findUsers();
+        const users = await userServices.retrieveUsers();
         return res.send({ users });
     } catch (err) {
         next(err);
