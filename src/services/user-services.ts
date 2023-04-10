@@ -20,7 +20,7 @@ async function updateUser({ email, password }: LogInUser) {
         await userRepositories.loginUser(token, user.id);
         return token;
     }
-}
+};
 
 async function createUser({ name, email, password }: RegisterUser) {
     const {rowCount} = await userRepositories.findByEmail(email);
@@ -32,25 +32,25 @@ async function createUser({ name, email, password }: RegisterUser) {
         email,
         password: hashedPasswd,
     });
-}
+};
 
 async function findUsers() {
     const { rows, rowCount } = await userRepositories.getUsers();
 
     if (!rowCount) throw errors.notFoundError();
     return rows;
-}
+};
 
 async function deleteUser(id: number) {
     const { rowCount } = await userRepositories.findById(id);
 
     if (!rowCount) throw errors.notFoundError();
     await userRepositories.deleteUser(id);
-}
+};
 
 export const userServices = {
     createUser,
     updateUser,
     findUsers,
     deleteUser,
-}
+};
