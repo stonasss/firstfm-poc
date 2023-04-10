@@ -30,3 +30,10 @@ async function getUsers(){
 async function deleteUser(){
 
 }
+
+export const userControllers = {
+    signUp,
+    logIn,
+    getUsers,
+    deleteUser,
+}
