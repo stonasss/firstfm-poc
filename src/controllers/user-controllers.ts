@@ -1,8 +1,17 @@
 import { userServices } from "../services/user-services.js"
 import { Request, Response, NextFunction } from "express";
 import { VerifyId, LogInUser, RegisterUser } from "../protocols/users.js";
+import { logInSchema, registerSchema } from "../schemas/user-schema.js";
 
 async function signUp(req: Request, res: Response, next: NextFunction){
+    const newUser = req.body as RegisterUser;
+    const { error } = registerSchema.validate(newUser);
+
+    if (error) {
+        return res.status(400).send({
+            message: error.message,
+        });
+    }
     const { name, email, password } = req.body as RegisterUser;
 
     try {
@@ -14,6 +23,14 @@ async function signUp(req: Request, res: Response, next: NextFunction){
 };
 
 async function logIn(req: Request, res: Response, next: NextFunction){
+    const newLogin = req.body as LogInUser;
+    const { error } = logInSchema.validate(newLogin);
+
+    if (error) {
+        return res.status(400).send({
+            message: error.message,
+        });
+    }
     const { email, password } = req.body as LogInUser;
 
     try {
