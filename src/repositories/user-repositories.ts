@@ -14,15 +14,15 @@ import {
     );
 }; */
 
-/* async function loginUser({token, id}: VerifyLogin) {
+async function loginUser({token, id}: VerifyLogin) {
     return prisma.sessions.upsert({
         where: {
             id: id || 0,
         },
-        create: token
+        create: token,
     })
 };
- */
+
 async function createUser({name, email, password}: RegisterUser){
     return prisma.users.create({
         data: {
@@ -63,7 +63,7 @@ async function deleteUser(id: number) {
 
 export const userRepositories = {
     createUser,
-/*     loginUser, */
+    loginUser,
     getUsers,
     findByEmail,
     findById,
