@@ -1,69 +1,69 @@
-import { db } from "../database/database-connection.js";
+import prisma from "../database/database-connection.js";
 import {
-    User,
-    VerifyEmail,
-    VerifyId,
+    VerifyLogin,
     RegisterUser,
     LogInUser,
 } from "../protocols/users.js";
-import { QueryResult } from "pg";
 
-async function loginUser(token: string, id: number): Promise<QueryResult<LogInUser>> {
+/* async function loginUser(token: string, id: number): Promise<QueryResult<LogInUser>> {
     return await db.query(
         `
         UPDATE users SET token = $1 WHERE id = $2;
         `,
         [token, id]
     );
+}; */
+
+/* async function loginUser({token, id}: VerifyLogin) {
+    return prisma.sessions.upsert({
+        where: {
+            id: id || 0,
+        },
+        create: token
+    })
+};
+ */
+async function createUser({name, email, password}: RegisterUser){
+    return prisma.users.create({
+        data: {
+            name, 
+            email, 
+            password,
+        }
+    })
 };
 
-async function createUser({ name, email, password }: RegisterUser): Promise<QueryResult<RegisterUser>>{
-    return await db.query(
-        `
-        INSERT INTO users (name, email, password) VALUES ($1, $2, $3);
-        `,
-        [name, email, password]
-    );
+async function getUsers(){
+    return prisma.users.findMany;
 };
 
-async function getUsers(): Promise<QueryResult<User>>{
-    return await db.query(
-        `
-        SELECT id, name FROM users;
-        `
-    );
+async function findByEmail(email: string) {
+    return prisma.users.findFirst({
+        where: {
+            email: email
+        },
+    })
 };
 
-async function findByEmail(email: string): Promise<QueryResult<VerifyEmail>>{
-    return await db.query(
-        `
-        SELECT * FROM users WHERE email = $1;
-        `,
-        [email]
-    );
+async function findById(id: number) {
+    return prisma.users.findFirst({
+        where: {
+            id: id
+        },
+    })
 };
 
-async function findById(id: number): Promise<QueryResult<VerifyId>>{
-    return await db.query(
-        `
-        SELECT * FROM users WHERE id = $1;
-        `,
-        [id]
-    );
-};
-
-async function deleteUser(id: number){
-    return await db.query(
-        `
-        DELETE FROM users WHERE id=$1;
-        `,
-        [id]
-    );
+async function deleteUser(id: number) {
+    return prisma.users.delete({
+        where: {
+            id: id
+        },
+    })
 };
 
 export const userRepositories = {
     createUser,
-    loginUser,
+/*     loginUser, */
     getUsers,
     findByEmail,
     findById,

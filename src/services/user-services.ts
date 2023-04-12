@@ -23,9 +23,9 @@ async function updateUser({ email, password }: LogInUser) {
 };
 
 async function createUser({ name, email, password }: RegisterUser) {
-    const {rowCount} = await userRepositories.findByEmail(email);
+    const result = await userRepositories.findByEmail(email);
 
-    if (rowCount) throw errors.duplicatedEmail(email);
+    if (result) throw errors.duplicatedEmail(email);
     const hashedPasswd: string = await bcrypt.hash(password, 10);
     await userRepositories.createUser({
         name,
@@ -35,16 +35,16 @@ async function createUser({ name, email, password }: RegisterUser) {
 };
 
 async function retrieveUsers() {
-    const { rows, rowCount } = await userRepositories.getUsers();
+    const result = await userRepositories.getUsers();
 
-    if (!rowCount) throw errors.notFoundError();
-    return rows;
+    if (!result) throw errors.notFoundError();
+    return result;
 };
 
 async function deleteUser(id: number) {
-    const { rowCount } = await userRepositories.findById(id);
+    const result = await userRepositories.findById(id);
 
-    if (!rowCount) throw errors.notFoundError();
+    if (!result) throw errors.notFoundError();
     await userRepositories.deleteUser(id);
 };
 

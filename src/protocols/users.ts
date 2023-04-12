@@ -17,6 +17,11 @@ export type VerifyId = {
     id: number,
 }
 
+export type VerifyLogin = {
+    id: number,
+    token: string,
+}
+
 export type VerifyEmail = {
     id: number,
     email: string,
