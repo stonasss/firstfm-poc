@@ -5,10 +5,10 @@ import {
     LogInUser,
 } from "../protocols/users.js";
 
-async function loginUser({token, id}: VerifyLogin) {
+async function loginUser(token: string) {
     return prisma.sessions.update({
         where: {
-            id: id || 0,
+            id: 0,
         },
         data: {
             token: token,
@@ -38,6 +38,14 @@ async function findByEmail(email: string) {
     })
 };
 
+async function findSession(id: number) {
+    return prisma.sessions.findFirst({
+        where: {
+            id: id,
+        },
+    })
+}
+
 async function findById(id: number) {
     return prisma.users.findFirst({
         where: {
@@ -60,5 +68,6 @@ export const userRepositories = {
     getUsers,
     findByEmail,
     findById,
+    findSession,
     deleteUser,
 };

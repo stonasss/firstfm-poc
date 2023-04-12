@@ -6,18 +6,17 @@ import { errors } from "../errors/index.js";
 import { RegisterUser, LogInUser } from "../protocols/users.js";
 
 async function updateUser({ email, password }: LogInUser) {
-    const { 
-        rowCount, 
-        rows: [user],
-    } = await userRepositories.findByEmail(email);
+    const user = await userRepositories.findByEmail(email);
 
-    if (!rowCount) throw errors.invalidCredentialsError(email);
+    if (!user) throw errors.invalidCredentialsError(email);
     const correctPasswd = bcrypt.compare(password, user.password);
 
     if (!correctPasswd) throw errors.invalidCredentialsError(email);
-    if (!user.token) {    
+
+    const userToken = await userRepositories.findSession(user.id)
+    if (!userToken.id) {    
         const token = jwt.sign({ user_id: user.id }, process.env.SECRET_KEY);
-        await userRepositories.loginUser(token, user.id);
+        await userRepositories.loginUser(token);
         return token;
     }
 };
