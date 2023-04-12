@@ -5,21 +5,14 @@ import {
     LogInUser,
 } from "../protocols/users.js";
 
-/* async function loginUser(token: string, id: number): Promise<QueryResult<LogInUser>> {
-    return await db.query(
-        `
-        UPDATE users SET token = $1 WHERE id = $2;
-        `,
-        [token, id]
-    );
-}; */
-
 async function loginUser({token, id}: VerifyLogin) {
-    return prisma.sessions.upsert({
+    return prisma.sessions.update({
         where: {
             id: id || 0,
         },
-        create: token,
+        data: {
+            token: token,
+        },
     })
 };
 
