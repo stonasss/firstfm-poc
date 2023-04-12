@@ -13,10 +13,6 @@ export type LogInUser = {
     password: string,
 }
 
-export type VerifyId = {
-    id: number,
-}
-
 export type VerifyLogin = {
     id: number,
     token: string,

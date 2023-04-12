@@ -1,9 +1,5 @@
 import prisma from "../database/database-connection.js";
-import {
-    VerifyLogin,
-    RegisterUser,
-    LogInUser,
-} from "../protocols/users.js";
+import { RegisterUser } from "../protocols/users.js";
 
 async function loginUser(token: string) {
     return prisma.sessions.update({
@@ -44,7 +40,7 @@ async function findSession(id: number) {
             id: id,
         },
     })
-}
+};
 
 async function findById(id: number) {
     return prisma.users.findFirst({

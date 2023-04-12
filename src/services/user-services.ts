@@ -19,6 +19,7 @@ async function updateUser({ email, password }: LogInUser) {
         await userRepositories.loginUser(token);
         return token;
     }
+    return userToken.token;
 };
 
 async function createUser({ name, email, password }: RegisterUser) {
