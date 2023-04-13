@@ -37,7 +37,7 @@ async function findByEmail(email: string) {
 async function findSession(id: number) {
     return prisma.sessions.findFirst({
         where: {
-            id: id,
+            id,
         },
     })
 };
@@ -45,7 +45,7 @@ async function findSession(id: number) {
 async function findById(id: number) {
     return prisma.users.findFirst({
         where: {
-            id: id
+            id,
         },
     })
 };
@@ -53,7 +53,7 @@ async function findById(id: number) {
 async function deleteUser(id: number) {
     return prisma.users.delete({
         where: {
-            id: id
+            id,
         },
     })
 };
